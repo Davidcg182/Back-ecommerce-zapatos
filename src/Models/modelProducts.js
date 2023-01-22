@@ -26,7 +26,7 @@ const zapSchema = mongoose.Schema({
         type: Number,
         required: true
     },
-    talla: {
+    talle: {
         type: Number,
         required: true
     },
@@ -54,6 +54,10 @@ const zapSchema = mongoose.Schema({
         type: Boolean,
         required: true,
         default: true
+    },
+    oferta: {
+        type: Boolean,
+        default: false
     }
 
 },

@@ -17,7 +17,19 @@ const reviewSchema = mongoose.Schema ({
        type: mongoose.Schema.Types.ObjectId,
        required: true,
        ref: "usuarios"
+    },
+    producto:{
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: "zapatillas"
+    },
+    estado: {
+        type: Boolean,
+        required: true,
+        default: true
     }
 });
 
 module.exports = reviewSchema
+
+//module.exports = mongoose.model('revisiones', reviewSchema)

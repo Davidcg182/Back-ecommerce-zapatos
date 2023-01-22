@@ -9,8 +9,8 @@ const mercadopago = require("mercadopago");
 const routeMp = require('./Routes/routeMp.js')
 const morgan = require('morgan')
 const { response } = require('express')
-
-const routeOrders = require ('./Routes/orderRoutes.js')
+const routeOrders = require ('./Routes/orderRoutes.js');
+const routeReviews = require("./Routes/routeReviews.js")
 
 const app = express()
 const port = process.env.PORT || 3001
@@ -20,9 +20,24 @@ app.use(express.json());
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
     next();
 });
+
+
+// app.use((req, res, next) => {
+
+//     // Dominio que tengan acceso (ej. 'http://example.com')
+//        res.setHeader('Access-Control-Allow-Origin', '*');
+    
+//     // Metodos de solicitud que deseas permitir
+//        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    
+//     // Encabecedados que permites (ej. 'X-Requested-With,content-type')
+//        res.setHeader('Access-Control-Allow-Headers', '*');
+    
+//     next();
+//     })
 
 app.post("/uploadImage", (req, res) =>{
     uploadImage(req.body.image)
@@ -36,11 +51,12 @@ app.post("/uploadMultipleImages", (req, res) => {
       .catch((err) => res.status(500).send(err));
   });
 
-app.use('/productos', routeProducts);
+app.use('/productos/zapatillas', routeProducts);
 app.use('/productos/filtros', routeFilters);
 app.use('/usuarios', routeUsers);
 app.use('/pedido', routeOrders);
-app.use('/payment', routeMp)
+app.use('/payment', routeMp);
+app.use('/productos/revisiones', routeReviews)
 
 
 
