@@ -13,11 +13,6 @@ const userSchema = mongoose.Schema({
     },
     apellido: {
         type: String,
-        default: ""
-    },
-    cumpleaños: {
-        type: String,
-        default: ""
     },
     contraseña: {
         type: String,
@@ -27,24 +22,14 @@ const userSchema = mongoose.Schema({
     favoritos: {
         type: Array
     },
-    ciudad:
-    {
+    ciudad: {
         type: String,
-        default: ""
     },
-    pais:
-    {
+    pais: {
         type: String,
-        default: ""
     },
-    direccion:
-    {
+    direccion: {
         type: String,
-        default: ""
-    },
-    tarjeta:
-    {
-        type: Number,
     },
     admin: {
         type: Boolean,

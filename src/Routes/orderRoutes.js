@@ -5,7 +5,6 @@ const orderRouter = express.Router();
 
 //CREATE ORDER
 orderRouter.post('/', async (req, res) => {
-
     const {
         usuario,
         orderItems,
@@ -15,14 +14,15 @@ orderRouter.post('/', async (req, res) => {
     } = req.body;
 
     if (orderItems && orderItems.length === 0) {
-        res.status(400).send("no hay productos en la orden de compra");
+        res.status(400).send("No hay productos en la orden de compra");
     }
 
     else {
 
-        let x = 0
+        let totalprice = 0
         orderItems.forEach(e => {
-            x = x + e.precio
+            e.precio = e.cantidad * e.precio
+            totalprice = totalprice + e.precio
         });
 
         const order = new Order({
@@ -31,7 +31,7 @@ orderRouter.post('/', async (req, res) => {
             direccionEntrega,
             metodoDePago,
             precioEnvio,
-            precioTotal: x
+            precioTotal: totalprice
         });
 
         const createOrder = await order.save();
@@ -46,51 +46,43 @@ orderRouter.get('/:id', async (req, res) => {
         res.json(order);
     }
     else {
-        res.status(401).send("Order not found");
+        res.status(401).send("Orden de compra inexistente");
     }
 });
 
-// GET ORDERS
+// GET ALL ORDERS
 orderRouter.get('', async (req, res) => {
     const order = await Order.find()
     if (order) {
         res.json(order);
     }
     else {
+        res.status(401).send("No se encuentran ordenes de compra");
+    }
+});
+
+// // ORDER IS PAID
+orderRouter.put('/:id/pay', async (req, res) => {
+    const order = await Order.findById(req.params.id);
+
+    if (order) {
+        order.estadoPago = true;
+        order.resultadoDePago = {
+            id: req.body.id,
+            estado: req.body.estado,
+            fechaDePago: req.body.fechaDePago,
+            email: req.body.email,
+        }
+
+        const updateOrder = await order.save();
+        res.json(updateOrder)
+    }
+    else {
         res.status(401).send("Order not found");
     }
 });
 
-// router.get('', (req, res) => {
-//     zapSchema.find()
-//         .then((data) => res.send(data))
-//         .catch((e) => res.send({ error: e }))
-// })
-
-
-// // ORDER IS PAID
-// orderRouter.put('/:id/pay', async (req, res) => {
-//     const order = await Order.findById(req.params.id);
-
-//     if (order) {
-//         order.estadoPago = true;
-//         order.fechaPago = "AGREGAR FUNCION CON FECHA ACTUAL"
-//         // order.resultadoDePago = {
-//         //     id: req.body.id,
-//         //     estado: req.body.estado,
-//         //     fechaDePago: req.body.fechaDePago,
-//         //     email: req.body.email,
-//         // }
-
-//         const updateOrder = await order.save();
-//         res.json(updateOrder)
-//     }
-//     else {
-//         res.status(401).send("Order not found");
-//     }
-// });
-
-
+//PEDIDO ENTREGADO
 orderRouter.put('/:id/enviado', async (req, res) => {
     const order = await Order.findById(req.params.id);
     const {precioEnvio, estadoEntrega} = req.body

@@ -35,12 +35,12 @@ const zapSchema = mongoose.Schema({
         required: true
     },
     revisiones: [reviewSchema],
-    numRevisiones:{
+    numRevisiones: {
         type: Number,
         required: true,
         default: 0
     },
-    calificacion:{
+    calificacion: {
         type: Number,
         required: true,
         default: 0
@@ -61,8 +61,8 @@ const zapSchema = mongoose.Schema({
     }
 
 },
-{
-    timestamps: true
-});
+    {
+        timestamps: true
+    });
 
-module.exports = mongoose.model('zapatillas', zapSchema)
+module.exports = mongoose.model('zapatillas', zapSchema);
