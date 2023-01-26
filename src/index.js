@@ -9,15 +9,18 @@ const routeMp = require('./Routes/routeMp.js')
 const routeOrders = require('./Routes/orderRoutes.js');
 const routeReviews = require("./Routes/routeReviews.js")
 const routeOfertas = require("./Routes/routeOfertas.js")
-const {Server} = require("socket.io")
+const { Server } = require("socket.io");
+const http = require("http")
+const cors = require("cors")
 
+const server = http.createServer(app)
 const app = express()
 const port = process.env.PORT || 3001
-const io = new Server({
-    cors:{
-        origin:"https://henry-pf-front-end.vercel.app/"
+const io = new Server(server, {
+    cors: {
+        origin: "*"
     }
-})
+});
 
 app.use(express.json());
 
@@ -40,6 +43,7 @@ app.post("/uploadMultipleImages", (req, res) => {
         .catch((err) => res.status(500).send(err));
 });
 
+app.use(cors())
 app.use('/productos/zapatillas', routeProducts);
 app.use('/productos/filtros', routeFilters);
 app.use('/usuarios', routeUsers);
@@ -48,12 +52,12 @@ app.use('/payment', routeMp);
 app.use('/productos/revisiones', routeReviews)
 app.use('/productos/ofertas', routeOfertas)
 
-io.on("connection", (socket) =>{
-    
+io.on("connection", (socket) => {
+
     socket.on('notificacion', msg => {
-       // console.log("enviando notificacion")
+        // console.log("enviando notificacion")
         io.emit('notificacion', msg);
-      });
+    });
 })
 
 mongoose.set('strictQuery', false);
@@ -61,5 +65,6 @@ mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log('conectado a mongo'))
     .catch((e) => console.log(e))
 
-io.listen(5000)
-app.listen(port, console.log(`listening port ${port}`))
+server.listen(port, console.log(`listening port ${port}`))
+// io.listen(5000)
+// app.listen(port, console.log(`listening port ${port}`))
