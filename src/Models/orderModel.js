@@ -22,7 +22,6 @@ const orderSchema = mongoose.Schema({
     direccionEntrega: {
         direccion: {type: String, required: true},
         ciudad: {type: String, required: true},
-        codigoPostal: {type: String, required: true},
         pais: {type: String, required: true},
     },
     metodoDePago: {
@@ -30,10 +29,13 @@ const orderSchema = mongoose.Schema({
         required: true,
         default: "mercadopago"
     },
-    precioEnvio: {
-        type: Number,
-        required: true,
-        default: 0.0,
+    // preferenceInit: {
+    //     type: String,
+    //     required:true
+    // },
+    preferenceId: {
+        type: String,
+        required:true
     },
     precioTotal: {
         type: Number,
@@ -41,11 +43,11 @@ const orderSchema = mongoose.Schema({
         default: 0.0,
     },
     estadoPago: {
-        type: Boolean,
+        type: String,
         required: true,
-        default: false
+        default: "pending"
     },
-    fechaPago: {
+    fechaCreacion: {
         type: String
     },
     estadoEntrega:{
@@ -53,9 +55,6 @@ const orderSchema = mongoose.Schema({
         required: true,
         default: false
     },
-    fechaEntrega:{
-        type: String
-    }
 },
     {
         timestamps: true

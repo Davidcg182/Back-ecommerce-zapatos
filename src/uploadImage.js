@@ -17,7 +17,7 @@ const uploadImage = (image) => {
   return new Promise((resolve, reject) => {
     cloudinary.uploader.upload(image, opts, (error, result) => {
       if (result && result.secure_url) {
-        console.log("funciona, amen");
+       // console.log("funciona, amen");
         return resolve(result.secure_url);
       }
       console.log(error.message);
@@ -30,7 +30,7 @@ module.exports = (image) => {
   return new Promise((resolve, reject) => {
     cloudinary.uploader.upload(image, opts, (error, result) =>{
       if(result && result.secure_url){
-        console.log("funciona, amen")
+       // console.log("funciona, amen")
         return resolve(result.secure_url)
       }
       console.log(error.message)
