@@ -60,7 +60,7 @@ orderRouter.post("/", async (req, res) => {
             failure: "https://henry-pf-front-end.vercel.app/compraexitosa",
             pending: "https://henry-pf-front-end.vercel.app/compraexitosa",
           },
-          auto_return: "approved",
+          //auto_return: "approved",
           binary_mode: true,
         };
         
