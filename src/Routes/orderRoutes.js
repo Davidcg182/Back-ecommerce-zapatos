@@ -57,8 +57,8 @@ orderRouter.post("/", async (req, res) => {
           items: arts,
           back_urls: {
             success: "https://henry-pf-front-end.vercel.app/compraexitosa",
-            failure: "",
-            pending: "",
+            failure: "https://henry-pf-front-end.vercel.app/compraexitosa",
+            pending: "https://henry-pf-front-end.vercel.app/compraexitosa",
           },
           auto_return: "approved",
           binary_mode: true,
