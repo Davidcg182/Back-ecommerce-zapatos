@@ -15,7 +15,7 @@ const app = express()
 const port = process.env.PORT || 3001
 const io = new Server({
     cors:{
-        origin:"http://localhost:3000"
+        origin:"https://henry-pf-front-end.vercel.app/"
     }
 })
 
