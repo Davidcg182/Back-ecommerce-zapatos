@@ -9,26 +9,22 @@ const routeMp = require('./Routes/routeMp.js')
 const routeOrders = require('./Routes/orderRoutes.js');
 const routeReviews = require("./Routes/routeReviews.js")
 const routeOfertas = require("./Routes/routeOfertas.js")
-const {Server} = require("socket.io");
-const http = require("http")
-const cors = require("cors")
-
-const server = http.createServer(app)
+const {Server} = require("socket.io")
 
 const app = express()
 const port = process.env.PORT || 3001
-const io = new Server(server, {
-    cors: {
-        origin: "*"
+const io = new Server({
+    cors:{
+        origin:"http://localhost:3000"
     }
-});
+})
 
 app.use(express.json());
 
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE");
-    res.header("Access-Control-Allow-Headers", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
     next();
 });
 
@@ -44,7 +40,6 @@ app.post("/uploadMultipleImages", (req, res) => {
         .catch((err) => res.status(500).send(err));
 });
 
-app.use(cors())
 app.use('/productos/zapatillas', routeProducts);
 app.use('/productos/filtros', routeFilters);
 app.use('/usuarios', routeUsers);
@@ -66,4 +61,5 @@ mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log('conectado a mongo'))
     .catch((e) => console.log(e))
 
-server.listen(port, console.log(`listening port ${port}`))
+io.listen(5000)
+app.listen(port, console.log(`listening port ${port}`))
